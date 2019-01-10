@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+    
+    <xacro:property name="ARM_BASE_X" value="0.115" />
+    <xacro:property name="ARM_BASE_Y" value="0.115" />
+    <xacro:property name="ARM_BASE_Z" value="0.05" />
+    <xacro:property name="ARM_BASE_MASS" value="0.300" />
+    
+    <xacro:property name="SHOULDER_PAN_X" value="0.04" />
+    <xacro:property name="SHOULDER_PAN_Y" value="0.130" />
+    <xacro:property name="SHOULDER_PAN_Z" value="0.079" />
+    <xacro:property name="SHOULDER_PAN_MASS" value="0.260" />
+    
+    <xacro:property name="SHOULDER_PITCH_X" value="0.034" />
+    <xacro:property name="SHOULDER_PITCH_Y" value="0.125" />
+    <xacro:property name="SHOULDER_PITCH_Z" value="0.116" />
+    <xacro:property name="SHOULDER_PITCH_MASS_OFFSET_Z" value="0.003" />
+    <xacro:property name="SHOULDER_PITCH_MASS" value="0.075" />
+    
+    <xacro:property name="ELBOW_FIXED_X" value="0.065" />
+    <xacro:property name="ELBOW_FIXED_MASS_OFFSET_X" value="0.0109" />
+    <xacro:property name="ELBOW_FIXED_Y" value="0.062" />
+    <xacro:property name="ELBOW_FIXED_Z" value="0.040" />
+    <xacro:property name="ELBOW_FIXED_MASS" value="0.153" />
+        
+    <xacro:property name="ELBOW_JOINT_X" value="0.040" />
+    <xacro:property name="ELBOW_JOINT_Y" value="0.056" />
+    <xacro:property name="ELBOW_JOINT_Z" value="0.173" />
+    <xacro:property name="ELBOW_JOINT_MASS_OFFSET_Z" value="0.003" />
+    <xacro:property name="ELBOW_JOINT_MASS" value="0.176" />
+    
+    <xacro:property name="ELBOW_JOINT_1_X" value="0.036" />
+    <xacro:property name="ELBOW_JOINT_1_Y" value="0.051" />
+    <xacro:property name="ELBOW_JOINT_1_Z" value="0.094" />
+    <xacro:property name="ELBOW_JOINT_1_MASS_OFFSET_Z" value="0.003" />
+    <xacro:property name="ELBOW_JOINT_1_MASS" value="0.087" />
+
+    <xacro:property name="WRIST_JOINT_X" value="0.051" />
+    <xacro:property name="WRIST_JOINT_Y" value="0.048" />
+    <xacro:property name="WRIST_JOINT_Z" value="0.079" />
+    <xacro:property name="WRIST_JOINT_MASS_OFFSET_X" value="0.00925" />
+    <xacro:property name="WRIST_JOINT_MASS_OFFSET_Z" value="0.0025" />
+    <xacro:property name="WRIST_JOINT_MASS" value="0.10" />
+    
+    <xacro:property name="WRIST_ROTATE_X" value="0.032" />
+    <xacro:property name="WRIST_ROTATE_Y" value="0.039" />
+    <xacro:property name="WRIST_ROTATE_Z" value="0.062" />
+    <xacro:property name="WRIST_ROTATE_MASS" value="0.06" />
+    
+    <xacro:property name="GRIPPER_JOINT_X" value="0.039" />
+    <xacro:property name="GRIPPER_JOINT_Y" value="0.075" />
+    <xacro:property name="GRIPPER_JOINT_Z" value="0.122" />
+    <xacro:property name="GRIPPER_JOINT_MASS_OFFSET_X" value="0.0085" />
+    <xacro:property name="GRIPPER_JOINT_MASS_OFFSET_Z" value="0.04969" />
+    <xacro:property name="GRIPPER_JOINT_MASS" value="0.02" />
+    
+    <xacro:property name="GRIPPER_PAD_JOINT_X" value="0.002" />
+    <xacro:property name="GRIPPER_PAD_JOINT_Y" value="0.075" />
+    <xacro:property name="GRIPPER_PAD_JOINT_Z" value="0.019" />
+    <xacro:property name="GRIPPER_PAD_JOINT_MASS_OFFSET_X" value="0.0" />
+    <xacro:property name="GRIPPER_PAD_JOINT_MASS_OFFSET_Z" value="0.0" />
+    <xacro:property name="GRIPPER_PAD_JOINT_MASS" value="0.001" />
+    
+    <xacro:property name="FINGER_JOINT_X" value="0.021" />
+    <xacro:property name="FINGER_JOINT_Y" value="0.035" />
+    <xacro:property name="FINGER_JOINT_Z" value="0.138" />
+    <xacro:property name="FINGER_JOINT_MASS_OFFSET_X" value="0.004" />
+    <xacro:property name="FINGER_JOINT_MASS_OFFSET_Z" value="-0.01367" />
+    <xacro:property name="FINGER_JOINT_MASS" value="0.01" />
+    
+    <xacro:property name="FINGER_PAD_JOINT_X" value="0.00254" />
+    <xacro:property name="FINGER_PAD_JOINT_Y" value="0.022" />
+    <xacro:property name="FINGER_PAD_JOINT_Z" value="0.019" />
+    <xacro:property name="FINGER_PAD_JOINT_MASS_OFFSET_X" value="0.0" />
+    <xacro:property name="FINGER_PAD_JOINT_MASS_OFFSET_Z" value="0.00131" />
+    <xacro:property name="FINGER_PAD_JOINT_MASS" value="0.001" />
+
+    <xacro:property name="BASE_WIDTH" value="0.118" />
+    <xacro:property name="BASE_LENGTH" value="0.118" />
+    <xacro:property name="BASE_HEIGHT" value="0.05" />
+    <xacro:property name="SHOULDER_PAN_HEIGHT" value="0.055" /> <!-- changed 0.065 to 0.055 -->
+    <xacro:property name="SHOULDER_PITCH_HEIGHT" value="0.128" />
+    <xacro:property name="SHOULDER_PITCH_EXTRUDE" value="0.029" />
+    <xacro:property name="ELBOW_HEIGHT" value="0.156" />
+    <xacro:property name="ELBOW1_HEIGHT" value="0.079" />
+    <xacro:property name="WRIST_HEIGHT" value="0.07475" />
+    <xacro:property name="WRIST_EXTRUDE" value="0.004" />
+    <xacro:property name="WRIST_ROTATE_HEIGHT" value="0.05075" />
+    <xacro:property name="FINGER_EXTRUDE" value="-0.01425" />
+    <xacro:property name="FINGER_HEIGHT" value="0.07893" />
+    <xacro:property name="CONTACT_EXTRUDE" value="0.03125" />
+    <xacro:property name="CONTACT_HEIGHT" value="0.07432" />
+    
+    <xacro:property name="shoulder_pan_joint_angle_min" value="-1.567915"/>
+    <xacro:property name="shoulder_pan_joint_angle_max" value="1.576411"/>
+    
+    <xacro:property name="shoulder_pitch_joint_angle_min" value="-2.062466"/>
+    <xacro:property name="shoulder_pitch_joint_angle_max" value="1.473099"/>
+    <xacro:property name="elbow_joint_angle_min" value="-0.2171094"/>
+    <xacro:property name="elbow_joint_angle_max" value="2.784857"/>
+    <xacro:property name="elbow1_joint_angle_min" value="-1.508952"/>
+    <xacro:property name="elbow1_joint_angle_max" value="1.647734"/>
+    <xacro:property name="wrist_joint_angle_min" value="-1.617993"/>
+    <xacro:property name="wrist_joint_angle_max" value="1.588693"/>
+    <xacro:property name="wrist_rotate_joint_angle_min" value="0.000"/>
+    <xacro:property name="wrist_rotate_joint_angle_max" value="6.28"/>
+    <xacro:property name="gripper_joint_angle_min" value="-0.61"/>
+    <xacro:property name="gripper_joint_angle_max" value="0.82"/>
+
+    <xacro:property name="default_joint_velocity_max" value="3.14"/>
+    <xacro:property name="default_finger_velocity_max" value="1.0" />
+    
+    
+    <xacro:property name="ALPHA" value="0.5" />
+    <xacro:property name="HALF_PI" value="1.570796326794896619231"/> 
+
+    <xacro:property name="AX18_mass" value="0.055" />
+    <xacro:property name="MX28_mass" value="0.072" />
+    <xacro:property name="MX64_mass" value="0.126" />
+    <xacro:property name="MX106_mass" value="0.153" />
+
+
+    <xacro:property name="AX18_torque" value="1.8" />
+    <xacro:property name="MX28_torque" value="2.5" />
+    <xacro:property name="MX64_torque" value="7.3" />
+    <xacro:property name="MX106_torque" value="8.4" />
+	<xacro:property name="M_PI" value="3.14159"/>
+
+    
+    <material name="grey">
+        <color rgba="0.7 0.7 0.7 1.0" />
+    </material>
+    
+    <material name="contact_link_material">
+        <color rgba="0.5 0.7 0.5 0.5" />
+    </material>
+
+   <material name="red">
+	<color rgba="0.8 0.0 0.0 1.0"/>
+    </material>
+
+
+</robot>

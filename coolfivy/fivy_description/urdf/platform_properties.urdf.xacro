@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PACKAGE" value="mastering_ros_robot_description_pkg"/>
+  <xacro:property name="M_PI" value="3.1415926535897931"/>
+  <xacro:property name="BASE_BOX_WIDTH" value="0.255"/>
+  <xacro:property name="BASE_BOX_LENGTH" value="0.20"/>
+  <xacro:property name="BASE_BOX_HEIGHT" value="0.07"/>
+  <xacro:property name="PLATFORM_BASE_WIDTH" value="0.31"/>
+  <xacro:property name="PLATFORM_BASE_LENGTH" value="0.30"/>
+  <xacro:property name="PLATFORM_BASE_HEIGHT" value="0.19"/>
+  <xacro:property name="SIDE_BASE_WIDTH" value="0.24"/>
+  <xacro:property name="SIDE_BASE_LENGTH" value="0.04"/>
+  <xacro:property name="SIDE_BASE_HEIGHT" value="0.1"/>
+  <xacro:property name="DETAIL1_WIDTH" value="0.01"/>
+  <xacro:property name="DETAIL1_LENGTH" value="0.01"/>
+  <xacro:property name="DETAIL1_HEIGHT" value="0.57"/>
+  <xacro:property name="DETAIL1_HEIGHT_LOWER" value="0.37"/>
+  <xacro:property name="DETAIL1_HEIGHT_ARM" value="0.47"/>
+  <xacro:property name="DETAIL1_X" value="-0.135"/>
+  <xacro:property name="DETAIL1_Y" value="0.0"/>
+  <xacro:property name="DETAIL1_Z" value="0.26"/>
+  <xacro:property name="DETAIL1_Z_LOWER" value="0.16"/>
+  <xacro:property name="DETAIL1_Z_ARM" value="0.21"/>
+  <xacro:property name="DETAIL2_WIDTH" value="0.08"/>
+  <xacro:property name="DETAIL2_LENGTH" value="0.01"/>
+  <xacro:property name="DETAIL2_HEIGHT" value="0.003"/>
+  <xacro:property name="DETAIL2_X" value="0.04"/>
+  <xacro:property name="DETAIL2_Y" value="0.0"/>
+  <xacro:property name="DETAIL2_Z" value="0.185"/>
+  <xacro:property name="DETAIL21_X" value="0.04"/>
+  <xacro:property name="DETAIL21_Y" value="0.0"/>
+  <xacro:property name="DETAIL21_Z" value="0.285"/>
+  <xacro:property name="STAND3_POSE_WIDTH" value="0.05"/>
+  <xacro:property name="STAND3_POSE_LENGTH" value="0.0"/>
+  <xacro:property name="STAND3_POSE_HEIGHT" value="0.01"/>
+  <xacro:property name="STAND4_POSE_WIDTH" value="-0.02"/>
+  <xacro:property name="STAND4_POSE_LENGTH" value="0.00"/>
+  <xacro:property name="STAND4_POSE_HEIGHT" value="0.12"/>
+  <xacro:property name="CAMERA_ANGLE" value="-0.188"/>
+  <xacro:property name="ARM_CAMERA_ANGLE" value="1.1"/>
+  <xacro:property name="SEC_CAM" value="0.8"/>
+  <xacro:property name="FIXEDLINK_HEIGHT" value="0.040"/>
+  <xacro:property name="FIXEDLINK1_LENGHT" value="0.040"/>
+  <xacro:property name="WHEEL_POS_X" value="0.10"/>
+  <xacro:property name="WHEEL_POS_Y" value="0.13"/>
+  <xacro:property name="WHEEL_RADIUS" value="0.055"/>
+  <xacro:property name="WHEEL_LENGTH" value="0.04"/>
+  <xacro:property name="CAMERA_LONG_NAME" value="asus_camera"/>
+  <xacro:property name="CAMERA_SHORT_NAME" value="depthSense_camera"/>
+  
+  <xacro:property name="BOX_L_MASS" value="5.0"/>
+  <xacro:property name="BOX_H_MASS" value="1.0"/>
+  <xacro:property name="OPEN_BOX_MASS" value="0.01"/>
+  <xacro:property name="PART_1_MASS" value="0.05"/>
+  <xacro:property name="PART_2_MASS" value="0.0001"/>
+  <xacro:property name="PART_3_MASS" value="0.05"/>
+  <xacro:property name="PART_4_MASS" value="0.05"/>
+  <xacro:property name="KINECT_MASS" value="0.218"/>
+  <xacro:property name="CAM_MASS" value="0.150"/>
+
+  <xacro:property name="SCALE" value="0.001"/>
+
+</robot>

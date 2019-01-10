@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<robot name="modified_fivy" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:include filename="$(find fivy_description)/urdf/platform_properties.urdf.xacro"/>
+<xacro:include filename="$(find fivy_description)/urdf/arm_properties.urdf.xacro"/>
+    
+    <xacro:property name="Shoulder_pan_joint_angle_min" value="1.567915"/>
+    <xacro:property name="Shoulder_pan_joint_angle_max" value="4.57"/>
+    
+    <xacro:property name="Shoulder_pitch_joint_angle_min" value="-2.062466"/>
+    <xacro:property name="Shoulder_pitch_joint_angle_max" value="1.57"/>
+    <xacro:property name="Elbow_joint_angle_min" value="-1.57"/>
+    <xacro:property name="Elbow_joint_angle_max" value="1.57"/>
+    <xacro:property name="Wrist_joint_angle_min" value="-1.57"/>
+    <xacro:property name="Wrist_joint_angle_max" value="1.57"/>
+    <xacro:property name="Wrist_rotate_joint_angle_min" value="-1.57"/>
+    <xacro:property name="Wrist_rotate_joint_angle_max" value="1.57"/>
+    <xacro:property name="Gripper_joint_angle_min" value="-0.61"/>
+    <xacro:property name="Gripper_joint_angle_max" value="0.82"/>
+
+
+
+<!-- ***********************************Link description************************************************** -->
+
+    <link name="arm_base_link">
+      <inertial_cuboid mass="${ARM_BASE_MASS}" x_length="${ARM_BASE_X}" y_length="${ARM_BASE_Y}" z_length="${ARM_BASE_Z}" 
+        x_mass_offset="0.0" y_mass_offset="0.0" z_mass_offset="${ARM_BASE_Z/2}"/>
+      <visual>
+        <origin xyz="0.0 0.0 -0.04" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://mastering_ros_robot_description_pkg/meshes/arm/arm_base.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 -0.04" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${BASE_LENGTH} ${BASE_WIDTH} ${BASE_HEIGHT}"/>
+        </geometry>
+      </collision>
+    </link>
+    
+
+ <joint name="shoulder_pan_joint" type="revolute">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/> 
+      <parent link="arm_base_link"/>
+      <child link="shoulder_pan_link"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${Shoulder_pan_joint_angle_min}" upper="${Shoulder_pan_joint_angle_max}" velocity="${default_joint_velocity_max}" effort="${2*MX64_torque}"/>
+    <!--  <safety_controller k_velocity="40" k_position="40" soft_lower_limit="${shoulder_pan_joint_angle_min}" soft_upper_limit="${shoulder_pan_joint_angle_max}"/> -->
+      <stop_values_joints name="shoulder_pan_joint"/>
+    </joint>
+
+
+    <link name="shoulder_pan_link">
+      <inertial_cuboid mass="${ELBOW_FIXED_MASS}" x_length="${ELBOW_FIXED_X}" y_length="${ELBOW_FIXED_Y}" z_length="${ELBOW_FIXED_Z}" 
+        x_mass_offset="0.0" y_mass_offset="0.0" z_mass_offset="0.0"/>
+      <visual>
+        <origin xyz="-0.06 0.06 0.0" rpy=" ${HALF_PI} 0.0 0.0"/>
+        <geometry>
+        <!--  <mesh filename="package://mastering_ros_robot_description_pkg/meshes/arm/shoulder_pan_joint.dae" scale="1.0 1.0 1.0"/>   -->
+	 <mesh filename="package://mastering_ros_robot_description_pkg/meshes/new_mesh/shoulder_link.dae" scale="1 1 1"/>
+	<!--<mesh filename="package://${PACKAGE}/meshes/arm/elbow_fixed.dae" scale="1.0 1.0 1.0"/> ${(BASE_HEIGHT/2)+0.01} --> 
+        </geometry>
+        <material name="red">
+            </material>
+      </visual>
+      <collision>
+        <origin xyz="-0.06 0.06 0.0 " rpy=" ${HALF_PI} 0.0 0.0"/>
+        <geometry>
+        <!-- <mesh filename="package://mastering_ros_robot_description_pkg/meshes/arm_collision/shoulder_pan_joint.stl" scale="1.0 1.0 1.0"/> -->
+	 <mesh filename="package://mastering_ros_robot_description_pkg/meshes/new_mesh/shoulder_link.STL" scale="1 1 1"/> -->
+	 <!--<mesh filename="package://${PACKAGE}/meshes/arm_collision/elbow_fixed.stl" scale="1.0 1.0 1.0"/> -->
+        </geometry>
+      </collision>
+      <force_values_links name="shoulder_pan_link"/>
+    </link>
+    
+   
+
+    <joint name="shoulder_joint" type="revolute">
+      <!--<origin xyz="${SHOULDER_PITCH_EXTRUDE} 0.0 0.0" rpy="0.0 0.0 0.0"/> -->
+	<origin xyz=" 0.0 0.0 0.055" rpy="0.0 0.0 0.0"/>  <!-- changed z height-->
+      <parent link="shoulder_pan_link"/>
+      <child link="shoulder_elbow_link"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${Shoulder_pitch_joint_angle_min}" upper="${Shoulder_pitch_joint_angle_max}" velocity="${default_joint_velocity_max}" effort="${MX106_torque}"/>
+    <!--  <safety_controller k_velocity="40" k_position="40" soft_lower_limit="${elbow_joint_angle_min}" soft_upper_limit="${elbow_joint_angle_max}"/> -->
+      <stop_values_joints name="shoulder_joint"/>
+    </joint>
+    
+   
+
+    <link name="shoulder_elbow_link">
+      <inertial_cuboid mass="${ELBOW_JOINT_MASS}" x_length="${ELBOW_JOINT_X}" y_length="${ELBOW_JOINT_Y}" z_length="${ELBOW_JOINT_Z}" 
+        x_mass_offset="0.0" y_mass_offset="0.0" z_mass_offset="${(-ELBOW_JOINT_Z/2) + ELBOW_JOINT_MASS_OFFSET_Z}"/>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="${M_PI} 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm/elbow_joint.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0.0 0.0" rpy="${M_PI} 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm_collision/elbow_joint.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+      <force_values_links name="shoulder_elbow_link"/>
+    </link>
+    
+<joint name="elbow_joint" type="revolute">
+      <origin xyz="0.0 0.0 0.156" rpy="0.0 0.0 0.0"/>
+      <parent link="shoulder_elbow_link"/>
+      <child link="elbow_wrist_link"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${Elbow_joint_angle_min}" upper="${Elbow_joint_angle_max}" velocity="${default_joint_velocity_max}" effort="${MX64_torque}"/>
+    <!-- <safety_controller k_velocity="40" k_position="40" soft_lower_limit="${elbow1_joint_angle_min}" soft_upper_limit="${Elbow_joint_angle_max}">     -->
+      <stop_values_joints name="elbow_joint"/>
+    </joint>
+
+
+    <link name="elbow_wrist_link">
+      <inertial_cuboid mass="${ELBOW_JOINT_MASS}" x_length="${ELBOW_JOINT_X}" y_length="${ELBOW_JOINT_Y}" z_length="${ELBOW_JOINT_Z}" 
+        x_mass_offset="0.0" y_mass_offset="0.0" z_mass_offset="${(-ELBOW_JOINT_Z/2) + ELBOW_JOINT_MASS_OFFSET_Z}"/>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="${M_PI} 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm/elbow_joint.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="${M_PI} 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm_collision/elbow_joint.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+      <force_values_links name="elbow_wrist_link"/>
+    </link>
+    
+
+ 
+    <joint name="wrist_joint" type="revolute">
+      <origin xyz="0.0 0.0 0.156" rpy="0.0 0.0 0.0"/>
+      <parent link="elbow_wrist_link"/>
+      <child link="hand_link"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${Wrist_joint_angle_min}" upper="${Wrist_joint_angle_max}" velocity="${default_joint_velocity_max}" effort="${MX28_torque}"/>
+    <!-- <safety_controller k_velocity="40" k_position="40" soft_lower_limit="${wrist_joint_angle_min}" soft_upper_limit="${wrist_joint_angle_max}"/>-->
+      <stop_values_joints name="wrist_joint"/>
+    </joint>
+    
+    
+
+    <link name="hand_link">
+      <inertial_cuboid mass="${WRIST_JOINT_MASS}" x_length="${WRIST_JOINT_X}" y_length="${WRIST_JOINT_Y}" z_length="${WRIST_JOINT_Z}" 
+        x_mass_offset="${-WRIST_JOINT_MASS_OFFSET_X}" y_mass_offset="0.0" z_mass_offset="${(-WRIST_JOINT_Z/2) + WRIST_JOINT_MASS_OFFSET_Z}"/>
+      <visual>
+        <origin xyz="0.0  0.0  0.0" rpy=" ${M_PI} 0.0  0.0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm/wrist_joint.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0  0.0" rpy=" ${M_PI} 0.0  0.0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm_collision/wrist_joint.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+      <force_values_links name="hand_link"/>
+    </link>
+
+
+    <joint name="wrist_rotate_joint" type="revolute">
+      <origin xyz="${WRIST_EXTRUDE} 0.0 ${WRIST_HEIGHT}" rpy="0.0 0.0 ${HALF_PI}"/>
+      <parent link="hand_link"/>
+      <child link="wrist_roll_link"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${Wrist_rotate_joint_angle_min}" upper="${Wrist_rotate_joint_angle_max}" velocity="${default_joint_velocity_max}"	effort="${MX28_torque}"/>
+    <!--  <safety_controller k_velocity="40" k_position="40" soft_lower_limit="${wrist_rotate_joint_angle_min}" soft_upper_limit="${wrist_rotate_joint_angle_max}"/> -->
+      <stop_values_joints name="wrist_rotate_joint"/>
+    </joint>
+    
+     
+
+    <link name="wrist_roll_link">
+      <inertial_cuboid mass="${WRIST_ROTATE_MASS}" x_length="${WRIST_ROTATE_X}" y_length="${WRIST_ROTATE_Y}" z_length="${WRIST_ROTATE_Z}" 
+        x_mass_offset="0.0" y_mass_offset="0.0" z_mass_offset="${-WRIST_ROTATE_Z/2}"/>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="${M_PI} 0 0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm/wrist_rotate_joint.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy=" ${M_PI} 0 0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm_collision/wrist_rotate_joint.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+      <force_values_links name="wrist_roll_link"/>
+    </link>
+    
+ 
+    <joint name="gripper_joint" type="revolute">
+      <origin xyz="0.0 0.0 ${WRIST_ROTATE_HEIGHT}" rpy="0.0 0.0 0.0"/>
+      <parent link="wrist_roll_link"/>
+      <child link="gripper_joint_link"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${Gripper_joint_angle_min}" upper="${Gripper_joint_angle_max}" velocity="${default_finger_velocity_max}" effort="${AX18_torque}"/>
+    <!--  <safety_controller k_velocity="40" k_position="40" soft_lower_limit="${gripper_joint_angle_min}" soft_upper_limit="${gripper_joint_angle_max}"/> -->
+      <stop_values_joints name="gripper_joint"/>
+    </joint>
+
+
+    <link name="gripper_joint_link">
+      <inertial_cuboid mass="${GRIPPER_JOINT_MASS}" x_length="${GRIPPER_JOINT_X}" y_length="${GRIPPER_JOINT_Y}" z_length="${GRIPPER_JOINT_Z}" 
+        x_mass_offset="${GRIPPER_JOINT_MASS_OFFSET_X}" y_mass_offset="0.0" z_mass_offset="${-GRIPPER_JOINT_MASS_OFFSET_Z}"/>
+      <visual>
+        <origin xyz="0 0.0 0.0" rpy="${M_PI} 0 0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm/gripper_joint.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0.0 0.0" rpy="${M_PI} 0 0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm_collision/gripper_joint.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+      <force_values_links name="gripper_joint_link"/>
+    </link>
+   
+    
+   <joint name="finger_joint" type="fixed">
+      <origin xyz="${FINGER_EXTRUDE} 0.0 ${FINGER_HEIGHT}" rpy="0.0 0.0 0.0"/>
+     <!-- <limit lower="0.0" upper="0.0" velocity="0.0" effort="10.0"/> -->
+      <parent link="wrist_roll_link"/>
+      <child link="finger_link"/>
+   <!--   <dynamics damping="50" friction="1"/> -->
+    </joint>
+    
+
+    <link name="finger_link">
+      <inertial_cuboid mass="${FINGER_JOINT_MASS}" x_length="${FINGER_JOINT_X}" y_length="${FINGER_JOINT_Y}" z_length="${FINGER_JOINT_Z}" 
+        x_mass_offset="${FINGER_JOINT_MASS_OFFSET_X}" y_mass_offset="0.0" z_mass_offset="${FINGER_JOINT_MASS_OFFSET_Z}"/>
+      <visual>
+        <origin xyz="0 0.0 0.0" rpy="${M_PI} 0 0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm/finger_joint.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${M_PI} 0 0"/>
+        <geometry>
+          <mesh filename="package://${PACKAGE}/meshes/arm_collision/finger_joint.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    
+   <joint name="contact_joint" type="fixed">
+      <origin xyz="${CONTACT_EXTRUDE} 0.0 ${-CONTACT_HEIGHT}" rpy="0.0 0.0 0.0"/>
+      <parent link="finger_link"/>
+      <child link="contact_link"/>
+    </joint>
+    
+    
+    <link name="contact_link"/>
+    
+   
+   <!--  </xacro:macro> -->
+
+
+<xacro:macro name="default_inertia">
+  <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+</xacro:macro>
+
+<xacro:macro name="default_inertia_servos">
+ <inertia ixx="0.00004" ixy="0.0" ixz="0.0" iyy="0.00004" iyz="0.0" izz="0.00004"/>
+</xacro:macro>
+
+
+</robot>
